@@ -37,7 +37,7 @@
 
 import mongoose from "mongoose";
 
-const studentschema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -63,11 +63,13 @@ const studentschema = new mongoose.Schema({
     enum: ["active", "pending", "hold", "suspend"],
     default: "active",
   },
-  mobailNumber: {
+  mobileNumber: {
     type: Number,
     min: 10,
     required: true,
   },
 });
 
-const student = mongoose.model(studentschema);
+const Student = mongoose.model("Student", studentSchema);
+
+export default Student;
