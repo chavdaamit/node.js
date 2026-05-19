@@ -73,4 +73,39 @@ const getAllStudentData = async (req, res, next) => {
   }
 };
 
-export default { add, getAllStudentData };
+const studentById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const studentData = await Student.findById(id);
+
+    if (!studentData) {
+      return next(new httpError("student not found with this id", 404));
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "student found", studentData });
+  } catch (error) {
+    next(new httpError("invalid  student id", 400));
+  }
+};
+
+const deleteById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const studentData = await Student.findByIdAndDelete(id);
+
+    if (!studentData) {
+      return next(new httpError("student not found with this id", 404));
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "student data delete successfully" });
+  } catch (error) {
+    next(new HttpError("invalid student id", 400));
+  }
+};
+
+export default { add, getAllStudentData, deleteById, studentById };
