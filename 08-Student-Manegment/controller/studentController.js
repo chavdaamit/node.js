@@ -108,4 +108,47 @@ const deleteById = async (req, res, next) => {
   }
 };
 
-export default { add, getAllStudentData, deleteById, studentById };
+const updateDataManually = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const studentUpdate = await Student.findById(id);
+
+    if (!studentUpdate) {
+      return next(new httpError("student not found wth this id ", 404));
+    }
+
+    const updates = Object.keys(req.body);
+
+    const alloWedFiled = ["name", "email", "mobileNumber"];
+
+    const isValidUpdate = updates.every((field) => {
+      return alloWedFiled.includes(field);
+    });
+
+    if (!isValidUpdate) {
+      return next(new httpError("only allowed field can be updated", 400));
+    }
+
+    updates.forEach((update) => {
+      studentUpdate[update] = req.body[update];
+    });
+
+    await studentUpdate.save();
+
+    res.status(200).json({
+      message: "student data updated successfully",
+      studentUpdate,
+    });
+  } catch (error) {
+    next(new httpError(error.message, 400));
+  }
+};
+
+export default {
+  add,
+  getAllStudentData,
+  deleteById,
+  studentById,
+  updateDataManually,
+};
