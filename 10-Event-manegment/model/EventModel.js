@@ -35,6 +35,13 @@ const eventSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    EventDocuments: {
+      type: [String],
+      required: true,
+    },
+    EventImages: {
+      type: [String],
+    },
   },
 
   {

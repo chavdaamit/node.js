@@ -4,26 +4,34 @@ import HttpError from "../middleware/httpError.js";
 
 import Event from "../model/EventModel.js";
 
-const Events = async (req, res, next) => {
+const create = async (req, res, next) => {
   try {
     const { EventName, Date, EventVenue, EventDescription, ticketPrice } =
       req.body;
+
+    const EventImages = req.files?.EventImages?.map((file) => file.path) || [];
 
     const EventPoster = req.files?.EventPoster?.map((file) => file.path) || [];
 
     const EventBanner = req.files?.EventBanner?.[0]?.path || "";
 
-    const EventSpeaker = req.files?.EventSpeaker?.map((file) => file.path) || [];
+    const EventSpeaker =
+      req.files?.EventSpeaker?.map((file) => file.path) || [];
 
-    const newEvent = new Event({
+    const EventDocuments =
+      req.files?.EventDocuments?.map((file) => file.path) || [];
+
+    const newEvent = await new Event({
       EventName,
       Date,
       EventVenue,
       EventDescription,
-      ticketPrice,
+      ticketPrice,  
       EventPoster,
       EventBanner,
       EventSpeaker,
+      EventDocuments,
+      EventImages,
     });
 
     await newEvent.save();
@@ -35,4 +43,4 @@ const Events = async (req, res, next) => {
   }
 };
 
-export default Events;
+export default create;

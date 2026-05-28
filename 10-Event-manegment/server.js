@@ -6,12 +6,15 @@ import connectDB from "./config/db.js";
 
 import dotenv from "dotenv";
 
+import router from "./routes/EventRoute.js";
+
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
 app.use(express.json());
 
+app.use("/event", router);
 app.get("/", (req, res) => {
   res.json({ message: "hello form server" });
 });
