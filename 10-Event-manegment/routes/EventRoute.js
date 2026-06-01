@@ -2,7 +2,7 @@ import express from "express";
 
 import upload from "../middleware/upload.js";
 
-import create from "../Controller/EventController.js";
+import EventController from "../Controller/EventController.js";
 
 const router = express.Router();
 
@@ -19,7 +19,12 @@ router.post(
 
     { name: "EventDocuments", maxCount: 5 },
   ]),
-  create,
+  EventController.create,
 );
 
+router.get("/AllEvent", EventController.getAllEvent);
+
+router.get("/:id", EventController.getEvent);
+
+router.delete("/:id", EventController.deleteEvent);
 export default router;
