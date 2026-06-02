@@ -6,8 +6,6 @@ import Event from "../model/EventModel.js";
 
 const create = async (req, res, next) => {
   try {
-
-
     const { EventName, Date, EventVenue, EventDescription, ticketPrice } =
       req.body;
 
@@ -126,8 +124,73 @@ const deleteEvent = async (req, res, next) => {
       .status(200)
       .json({ success: true, message: "Event deleted successfully" });
   } catch (error) {
-    next(new HttpError(error.message));
+    next(new HttpError(error.message, 500));
   }
 };
 
-export default { create, getAllEvent, getEvent, deleteEvent };
+const UpdateEvent = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const event = await Event.findById(id);
+
+    if (!event) {
+      return next(new HttpError("no event found with this id", 404));
+    }
+
+    const updates = Object.keys(req.body || {});
+
+    const allowedFields = [
+      "EventName",
+      "Date",
+      "EventDescription",
+      "EventVenue",
+      "ticketPrice",
+    ];
+
+    const isValidUpdates = updates.every((field) => {
+      return allowedFields.includes(field);
+    });
+
+    if (!isValidUpdates) {
+      return next(new HttpError("invalid update field", 400));
+    }
+
+    if (req.files?.EventImages) {
+      event.EventImages?.forEach((file) => {
+        if (fs.existsSync(file)) {
+          fs.unlinkSync(file);
+        }
+      });
+
+      event.EventImages = req.files.EventImages.map((file) => file.path);
+    }
+
+    // EventPoster
+    if (req.files?.EventPoster) {
+      event.EventPoster?.forEach((file) => {
+        if (fs.existsSync(file)) {
+          fs.unlinkSync(file);
+        }
+      });
+
+      event.EventPoster = req.files.EventPoster.map((file) => file.path);
+    }
+
+    updates.forEach((field) => {
+      event[field] = req.body[field];
+    });
+
+    await event.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Event updated successfully",
+      event,
+    });
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
+
+export default { create, getAllEvent, getEvent, deleteEvent, UpdateEvent };
