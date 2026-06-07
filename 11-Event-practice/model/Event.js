@@ -2,48 +2,44 @@ import mongoose from "mongoose";
 
 const eventSchema = new mongoose.Schema(
   {
-    EventName: {
+    eventName: {
       type: String,
       required: true,
       trim: true,
     },
-    Date: {
+    eventDate: {
       type: Date,
       required: true,
     },
-    EventVenue: {
+    eventDescription: {
+      type: String,
+    },
+    eventImages: {
+      type: [String],
+    },
+    eventPoster: {
       type: String,
       required: true,
-      trim: true,
     },
-    EventDescription: {
+    eventBanner: {
       type: String,
+    },
+    eventSpeakers: {
+      type: [String],
     },
     ticketPrice: {
       type: Number,
       required: true,
     },
-    EventPoster: {
+    eventDocuments: {
       type: [String],
       required: true,
     },
-    EventBanner: {
+    eventVenue: {
       type: String,
       required: true,
     },
-    EventSpeaker: {
-      type: [String],
-      required: true,
-    },
-    EventDocuments: {
-      type: [String],
-      required: true,
-    },
-    EventImages: {
-      type: [String],
-    },
   },
-
   {
     timestamps: true,
   },
@@ -52,5 +48,3 @@ const eventSchema = new mongoose.Schema(
 const Event = mongoose.model("Event", eventSchema);
 
 export default Event;
-
-
