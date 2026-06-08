@@ -23,16 +23,14 @@ app.use((error, req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(error.message || 500)
-    .json({ message: error.message || "internal server error" });
+  res.status(500).json({ message: error.message || "internal server error" });
 });
 
 const port = process.env.PORT || 5000;
 
 async function startServer() {
   try {
-    const connect = await connectDB;
+    const connect = await connectDB();
 
     if (!connect) {
       return console.log("faild to connectDB");
