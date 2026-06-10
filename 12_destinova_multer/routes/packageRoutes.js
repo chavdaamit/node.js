@@ -8,4 +8,10 @@ const router = express.Router();
 
 router.post("/add", upload.single("packageImage"), packageController.add);
 
+router.get("/allpackage", packageController.getAllPackage);
+
+router.get("/:id", packageController.getById);
+
+router.delete("/:id", packageController.deletePackage);
+
 export default router;

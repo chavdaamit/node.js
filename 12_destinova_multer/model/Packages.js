@@ -35,12 +35,15 @@ const packageSchema = new mongoose.Schema(
     packageImage: {
       type: String,
     },
+    cloudinary_id: {
+      type: String,
+    },
   },
   {
-    timeStamp: true,
-  },
+    timestamps: true,
+  }
 );
 
-const Package = mongoose.model("package", packageSchema);
+const Package = mongoose.model("Package", packageSchema);
 
 export default Package;
