@@ -45,6 +45,8 @@ const login = async (req, res, next) => {
 
     const Users = await modelUSer.findByCredentials(Email, password);
 
+    const token = await Users.generateAuthToken();
+
     if (!Users) {
       return next(new HttpError("unable to login"));
     }
@@ -52,6 +54,20 @@ const login = async (req, res, next) => {
     res.status(200).json({ success: true, Users });
   } catch (error) {
     next(new HttpError(error.message, 500));
+  }
+};
+
+const AuthLogin = async function (req, res, next) {
+  try {
+    const Users = req.user;
+
+    if (!users) {
+      return next(new httpError("unable to login", 401));
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    next(new httpError(error.message));
   }
 };
 
