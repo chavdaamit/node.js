@@ -57,18 +57,21 @@ const login = async (req, res, next) => {
   }
 };
 
-const AuthLogin = async function (req, res, next) {
+const AuthLogin = async (req, res, next) => {
   try {
-    const Users = req.user;
+    const user = req.user;
 
-    if (!users) {
-      return next(new httpError("unable to login", 401));
+    if (!user) {
+      return next(new HttpError("unable to login", 401));
     }
 
-    res.status(200).json({ success: true, user });
+    res.status(200).json({
+      success: true,
+      user,
+    });
   } catch (error) {
-    next(new httpError(error.message));
+    next(new HttpError(error.message, 500));
   }
 };
 
-export default { add, getAllUsers, login };
+export default { add, getAllUsers, login, AuthLogin };
