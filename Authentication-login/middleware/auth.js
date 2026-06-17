@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 
-// import HttpError from "./HttpError";
-
 import User from "../model/userModel.js";
 import HttpError from "../middleware/HttpError.js";
 
@@ -35,15 +33,3 @@ const auth = async function (req, res, next) {
 };
 
 export default auth;
-
-// const auth = async function (req, res, next) {
-//   try {
-//     const authHeader = req.header("Authorization");
-
-//     if (!authHeader) {
-//       return next(new HttpError("auth header is required", 401));
-//     }
-
-//     const token = authHeader.replace("bearer", "").trim();
-//   } catch (error) {}
-// };
