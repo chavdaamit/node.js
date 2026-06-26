@@ -2,13 +2,16 @@ import express from "express";
 import HttpError from "./middleware/HttpError.js";
 import authRoutes from "./routes/authRoutes.js";
 import connectDb from "./config/db.js";
+import passport from "./config/passport.js";
 
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "./.env" });
+// dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(passport.initialize());
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
