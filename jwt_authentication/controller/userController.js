@@ -53,7 +53,7 @@ const login = async (req, res, next) => {
       return next(new HttpError("unable to login"));
     }
 
-    res.status(200).json({ success: true, Users });
+    res.status(200).json({ success: true, Users, token });
   } catch (error) {
     next(new HttpError(error.message, 500));
   }
@@ -94,9 +94,9 @@ const logOutAll = async (req, res, next) => {
   try {
     req.user.tokens = [];
 
-    req.user.save();
+    await req.user.save();
 
-    req.status(200).json({
+    res.status(200).json({
       success: true,
       message: "user logout from all device successfully",
     });

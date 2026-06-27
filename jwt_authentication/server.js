@@ -19,13 +19,13 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  if (res.headesSent) {
+  if (res.headersSent) {
     return next(error);
   }
 
   res
     .status(error.statusCode || 500)
-    .json({ sucess: true, message: "intenal server error" });
+    .json({ success: false, message: "intenal server error" });
 });
 
 const port = 5000;

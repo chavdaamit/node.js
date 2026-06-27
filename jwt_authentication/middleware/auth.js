@@ -19,6 +19,8 @@ const auth = async (req, res, next) => {
       "tokens.token": token,
     });
 
+    
+
     if (!user) {
       return next(new HttpError("Authentication failed", 401));
     }
@@ -28,7 +30,7 @@ const auth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return next(new HttpError("Please authenticate", 401));
+    return next(new HttpError(error.message, 401));
   }
 };
 
