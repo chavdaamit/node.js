@@ -4,14 +4,28 @@ import authRoutes from "./routes/authRoutes.js";
 import connectDb from "./config/db.js";
 import passport from "./config/passport.js";
 
+import session from "express-session";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
 // dotenv.config();
 const app = express();
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  }),
+);
+
 app.use(express.json());
 app.use(passport.initialize());
+app.use(passport.session());
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {

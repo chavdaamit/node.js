@@ -28,9 +28,9 @@ passport.use(
             email: profile.emails[0]?.value,
           });
 
-          done(null, newUser);
+          return done(null, newUser);
         }
-        done(null, alreadyUser);
+        return done(null, alreadyUser);
       } catch (error) {
         console.log(error.message);
       }
@@ -38,6 +38,8 @@ passport.use(
   ),
 );
 
-
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
 export default passport;
