@@ -4,7 +4,7 @@ import googlePassport from "passport-google-oauth20";
 
 import dotenv from "dotenv";
 
-import user from "../model/User.js";
+import User from "../model/User.js";
 dotenv.config({ path: "./.env" });
 
 const googleStrategy = googlePassport.Strategy;
@@ -18,11 +18,11 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
-        const alreadyUser = await user.findOne({ googleId: profile.id });
+        const alreadyUser = await User.findOne({ googleId: profile.id });
         console.log("profile", profile);
 
         if (!alreadyUser) {
-          const newUser = await user.create({
+          const newUser = await User.create({
             googleId: profile.id,
             name: profile.displayName,
             email: profile.emails[0]?.value,
@@ -40,6 +40,16 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
 });
 
 export default passport;

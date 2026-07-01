@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -12,13 +12,17 @@
     />
   </head>
   <body>
-    <div class="container text-center mt-5">
-      <a href="/">home page</a>
-      <h1>This is login page</h1>
+    <div
+      class="container vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="text-center">
+        <a href="/" class="btn btn-danger mb-2">home page</a>
+        <h1>This is login page</h1>
 
-      <a href="/auth/google/login" class="btn btn-danger mt-3">
-        Login With Google
-      </a>
+        <a href="/auth/google/login" class="btn btn-success mt-3">
+          Login With Google
+        </a>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -26,4 +30,42 @@
       crossorigin="anonymous"
     ></script>
   </body>
+</html> -->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+
+  <div class="card shadow-lg p-5 text-center" style="max-width:500px; width:100%;">
+
+    <h2 class="mb-4">Login</h2>
+
+    <p class="text-muted">
+      Sign in using your Google Account.
+    </p>
+
+    <a href="/auth/google/login" class="btn btn-success btn-lg w-100 mt-3">
+      Login with Google
+    </a>
+
+    <a href="/" class="btn btn-outline-secondary w-100 mt-3">
+      Back to Home
+    </a>
+
+  </div>
+
+</div>
+
+</body>
 </html>

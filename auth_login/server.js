@@ -3,6 +3,7 @@ import HttpError from "./middleware/HttpError.js";
 import authRoutes from "./routes/authRoutes.js";
 import connectDb from "./config/db.js";
 import passport from "./config/passport.js";
+import profileRotes from "./routes/profileRoutes.js";
 
 import session from "express-session";
 import dotenv from "dotenv";
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/profile", profileRotes);
 app.use((req, res, next) => {
   return next(new HttpError("request routes not found", 404));
 });
