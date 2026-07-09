@@ -1,10 +1,18 @@
 import express from "express";
+// controllers
 
 import UserController from "../controller/UserController.js";
 
+// validation
+
+import validate from "../middleware/validate.js";
+
+import userSchema from "../validation/UserSchema.js";
+
 const router = express.Router();
 
-router.post("/add", UserController.add);
+// routes
+router.post("/add", validate(userSchema), UserController.add);
 
 router.get("/AllUser", UserController.GetAllUser);
 

@@ -43,4 +43,22 @@ const GetAllUser = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { Email, password } = req.body;
+
+    const User = await modelUser.findByCredentials(Email, password);
+
+    if (!user) {
+      return next(new HttpError("unable to login", 401));
+    }
+
+    const token = await user.generateAuthToken();
+
+    res.status(200).json({ success: true, user, token });
+  } catch (error) {
+    next(new HttpError(error.message, 500));
+  }
+};
+
 export default { add, GetAllUser };

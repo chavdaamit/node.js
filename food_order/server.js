@@ -5,6 +5,8 @@ import express from "express";
 
 import HttpError from "./middleware/HttpError.js";
 import connectDb from "./config/db.js";
+
+// routes
 import router from "./routes/UserRoutes.js";
 
 import dotenv from "dotenv";
@@ -15,6 +17,7 @@ const app = express();
 
 app.use(express.json());
 
+// routes
 app.use("/user", router);
 // server check
 app.get("/", (req, res) => {

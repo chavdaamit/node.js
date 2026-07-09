@@ -95,6 +95,11 @@ userSchema.methods.generateAuthToken = async function () {
   }
 };
 
+
+
+
+
+
 const modelUSer = mongoose.model("user", userSchema);
 
 export default modelUSer;
