@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = await mongoose.Schema(
   {
@@ -38,12 +39,21 @@ const userSchema = await mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
   },
 );
-
+// hash Password
 userSchema.pre("save", async function () {
   const user = this;
 
@@ -51,7 +61,7 @@ userSchema.pre("save", async function () {
     user.password = await bcrypt.hash(user.password, 10);
   }
 });
-
+// find user for login
 userSchema.statics.findByCredentials = async function (Email, password) {
   try {
     const users = await this.findOne({ Email });
@@ -70,6 +80,34 @@ userSchema.statics.findByCredentials = async function (Email, password) {
     throw new Error(error.message);
   }
 };
+
+// Generate Auth Token
+
+userSchema.methods.generateAuthToken = async function () {
+  try {
+    const user = this;
+
+    const token = jwt.sign(
+      { _id: user._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    if (!token) {
+      throw new Error("faild to generate auth token");
+    }
+
+    user.tokens = user.tokens.concat({ token });
+
+    await user.save();
+
+    return token;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 
 const modelUser = mongoose.model("user", userSchema);
 
