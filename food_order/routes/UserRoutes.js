@@ -11,11 +11,17 @@ import userSchema from "../validation/UserSchema.js";
 import auth from "../middleware/auth.js";
 
 import CheckRole from "../middleware/checkRole.js";
+import uploads from "../middleware/uploads.js";
 
 const router = express.Router();
 
 // routes
-router.post("/add", validate(userSchema), UserController.add);
+router.post(
+  "/add",
+  validate(userSchema),
+  uploads.single("profilepic"),
+  UserController.add,
+);
 
 router.get("/AllUser", auth, CheckRole("admin"), UserController.GetAllUser);
 

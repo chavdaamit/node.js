@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import HttpError from "../middleware/HttpError.js";
 
 const userSchema = await mongoose.Schema(
   {
@@ -39,7 +40,12 @@ const userSchema = await mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    
+    profilePic: {
+      type: String,
+    },
+    cloudinary_id: {
+      type: String,
+    },
 
     tokens: [
       {
@@ -108,7 +114,23 @@ userSchema.methods.generateAuthToken = async function () {
   }
 };
 
+userSchema.methods.toJSON = function () {
+  const user = this;
 
+  const userObjet = user.toObject();
+
+  delete userObjet.password;
+
+  delete userObjet._id;
+
+  delete userObjet.createdAt;
+
+  delete userObjet.updatedAt;
+
+  delete userObjet.__v;
+
+  return userObjet;
+};
 
 const modelUser = mongoose.model("user", userSchema);
 

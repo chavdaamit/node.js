@@ -1,5 +1,6 @@
 import modelUser from "../model/UserModel.js";
 import HttpError from "../middleware/HttpError.js";
+import cloudinary from "../config/cloudinary.js";
 
 const add = async (req, res, next) => {
   try {
@@ -12,6 +13,8 @@ const add = async (req, res, next) => {
       role,
       Address,
       phone,
+      profilepic: req.file?.path || null,
+      cloudinary_id: req.file?.filename || null,
     });
 
     await newUser.save();
