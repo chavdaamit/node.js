@@ -24,7 +24,7 @@ const userSchema = await mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["customer", "provider", "admin"],
+      enum: ["customer", "admin"],
       default: "customer",
     },
     Address: {
@@ -39,6 +39,7 @@ const userSchema = await mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    
 
     tokens: [
       {
