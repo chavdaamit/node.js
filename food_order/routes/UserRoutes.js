@@ -7,11 +7,13 @@ import UserController from "../controller/UserController.js";
 
 import validate from "../middleware/validate.js";
 
-import userSchema from "../validation/UserSchema.js";
+import { userSchema } from "../validation/UserSchema.js";
 import auth from "../middleware/auth.js";
 
 import CheckRole from "../middleware/checkRole.js";
 import uploads from "../middleware/uploads.js";
+
+import { updateUSerSchema } from "../validation/UserSchema.js";
 
 const router = express.Router();
 

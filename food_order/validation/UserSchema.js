@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const userSchema = joi.object({
+export const userSchema = joi.object({
   name: joi.string().min(2).max(30).trim().required().messages({
     "string.base": "name must be in string format",
     "string.min": "name must be  at least 2 charcater long",
@@ -32,4 +32,11 @@ const userSchema = joi.object({
   Address: joi.string().min(5).max(100).required(),
 });
 
-export default userSchema;
+export const updateUSerSchema = userSchema
+  .fork(["name", "Address", "phone", "password"], (fields) => fields.optional())
+  .fork(["role", "Email"], (fields) => fields.forbidden())
+  .or("name", "Address", "phone", "password")
+  .message({
+    "object.missing":
+      "name,Address,phone and password any one required to update",
+  });
