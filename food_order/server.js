@@ -8,6 +8,7 @@ import connectDb from "./config/db.js";
 
 // routes
 import router from "./routes/UserRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 import dotenv from "dotenv";
 // dotenv config
@@ -19,6 +20,9 @@ app.use(express.json());
 
 // routes
 app.use("/user", router);
+// admin routes
+app.use("/admin", adminRoutes);
+
 // server check
 app.get("/", (req, res) => {
   res.json({ message: "hello from serevr" });

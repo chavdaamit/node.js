@@ -36,7 +36,9 @@ export const updateUSerSchema = userSchema
   .fork(["name", "Address", "phone", "password"], (fields) => fields.optional())
   .fork(["role", "Email"], (fields) => fields.forbidden())
   .or("name", "Address", "phone", "password")
-  .message({
+  .messages({
     "object.missing":
       "name,Address,phone and password any one required to update",
   });
+
+

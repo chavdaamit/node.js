@@ -110,7 +110,9 @@ const logOutAll = async (req, res, next) => {
 
 const Delete = async (req, res, next) => {
   try {
-    const user = req.user;
+    const targetUser = req.params.id || req.user._id;
+
+    const user = await modelUser.findById(targetUser);
 
     await user.deleteOne();
 
@@ -124,11 +126,17 @@ const Delete = async (req, res, next) => {
 
 const updateUSer = async (req, res, next) => {
   try {
-    const user = req.user;
+    const targetUser = req.params.id || req.user._id;
+
+    const user = await modelUser.findById(targetUser);
 
     const updates = Object.keys(req.body);
 
-    const allowedFiled = ["name", "password", "Address", "phone"];
+    let allowedFiled = ["name", "Address", "phone"];
+
+    if (req.user.role === "admin") {
+      allowedFiled = [...allowedFiled, "isVerified"];
+    }
 
     const isValidUpdate = updates.every((filed) => {
       return allowedFiled.includes(filed);

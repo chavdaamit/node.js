@@ -119,7 +119,7 @@ userSchema.methods.toJSON = function () {
 
   const userObjet = user.toObject();
 
-  delete userObjet.password;
+  // delete userObjet.password;
 
   delete userObjet._id;
 
