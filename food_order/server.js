@@ -10,6 +10,8 @@ import connectDb from "./config/db.js";
 import router from "./routes/UserRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
+import restaurantRoutes from "./routes/restaurantRoutes.js";
+
 import dotenv from "dotenv";
 // dotenv config
 dotenv.config({ path: "./.env" });
@@ -22,6 +24,8 @@ app.use(express.json());
 app.use("/user", router);
 // admin routes
 app.use("/admin", adminRoutes);
+// restaurant Routes
+app.use("/restaurant", restaurantRoutes);
 
 // server check
 app.get("/", (req, res) => {
