@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
 const authLogin = async (req, res, next) => {
   const user = req.user;
 
-  console.log(user);
+  // console.log(user);
 
   res
     .status(200)
