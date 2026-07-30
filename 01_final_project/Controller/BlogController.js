@@ -90,7 +90,7 @@ const updateBlog = async (req, res, next) => {
 
 const getAllBlogs = async (req, res, next) => {
   try {
-    const blogs = await BlogSchema.find();
+    const blogs = await BlogSchema.find().populate("Author", "Name Email -_id");
 
     res.status(200).json({
       success: true,

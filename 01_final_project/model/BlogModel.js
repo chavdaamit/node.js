@@ -22,6 +22,7 @@ const newBlog = new mongoose.Schema({
   },
   Author: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Usermodel",
   },
 });
 

@@ -58,6 +58,8 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
 
@@ -104,7 +106,7 @@ userSchema.methods.generateAuthToken = async function () {
 
     const token = jwt.sign(
       { _id: user._id.toString() },
-      process.env.JWt_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "7d" },
     );
 
@@ -120,6 +122,30 @@ userSchema.methods.generateAuthToken = async function () {
   } catch (error) {
     throw new Error(error.message);
   }
+};
+
+userSchema.virtual("Blogs", {
+  ref: "blog",
+  localField: "_id",
+  foreignField: "Author",
+});
+
+userSchema.methods.toJSON = function () {
+  const user = this;
+
+  const userObject = user.toObject();
+
+  delete userObject.Password;
+
+  delete userObject.tokens;
+
+  delete userObject.__v;
+
+  delete userObject.createdAt;
+
+  delete userObject.updatedAt;
+
+  return userObject;
 };
 
 const Usermodel = mongoose.model("Usermodel", userSchema);
