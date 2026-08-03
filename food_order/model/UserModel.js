@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { VirtualType } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import HttpError from "../middleware/HttpError.js";
+
 
 const userSchema = await mongoose.Schema(
   {
@@ -58,6 +59,8 @@ const userSchema = await mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { Virtuals: true },
+    toObject: { Virtuals: true },
   },
 );
 // hash Password
@@ -113,6 +116,12 @@ userSchema.methods.generateAuthToken = async function () {
     throw new Error(error.message);
   }
 };
+
+userSchema.virtual("restaurant", {
+  ref: "restaurant",
+  localField: "_id",
+  foreignField: "Owner",
+});
 
 userSchema.methods.toJSON = function () {
   const user = this;

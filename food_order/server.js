@@ -73,20 +73,20 @@ async function satrtServer() {
 
 satrtServer();
 
-async function checowner() {
-  try {
-    // const owner = await modelUser.findById("6a60b65d8b617e428c1d19fa");
+// async function checowner() {
+//   try {
+//     // const owner = await modelUser.findById("6a60b65d8b617e428c1d19fa");
 
-    // console.log(owner);
+//     // console.log(owner);
 
-    const restaurant = await restaurantModel
-      .findById("6a60b65d8b617e428c1d19fa")
-      .populate("Owner", "name Email phone -_id");
-    console.log(restaurant.Owner);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+//     const restaurant = await restaurantModel
+//       .findById("6a60b65d8b617e428c1d19fa")
+//       .populate("Owner", "name Email phone -_id");
+//     console.log(restaurant.Owner);
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// }
 
-checowner();
+// checowner();
 
