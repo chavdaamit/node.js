@@ -20,4 +20,26 @@ router.post(
   restaurantController.add,
 );
 
+router.get(
+  "/allRestaurants",
+  auth,
+  CheckRole("admin"),
+  restaurantController.GetAllRestaurant,
+);
+
+router.delete(
+  "/delete/:id",
+  auth,
+  CheckRole("admin"),
+  restaurantController.deleteRestaurant,
+);
+
+router.put(
+  "/update/:id",
+  auth,
+  CheckRole("admin", "provider"),
+  // uploads.single("restaurantImage"),
+  restaurantController.updateRestaurant,
+);
+
 export default router;

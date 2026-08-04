@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import HttpError from "../middleware/HttpError.js";
 
-
 const userSchema = await mongoose.Schema(
   {
     name: {
@@ -26,7 +25,7 @@ const userSchema = await mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["customer", "admin"],
+      enum: ["customer", "admin", "provider"],
       default: "customer",
     },
     Address: {

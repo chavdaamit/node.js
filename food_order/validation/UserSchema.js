@@ -17,7 +17,7 @@ export const userSchema = joi.object({
     "string.max": "password must be 20 charcater long",
     "any.required": "password is required",
   }),
-  role: joi.string().valid("customer", "provider").default("customer"),
+  role: joi.string().valid("customer", "provider", "admin").default("customer"),
 
   phone: joi
     .string()
@@ -40,5 +40,3 @@ export const updateUSerSchema = userSchema
     "object.missing":
       "name,Address,phone and password any one required to update",
   });
-
-

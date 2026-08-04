@@ -1,7 +1,8 @@
 import restaurantModel from "../model/restaurant.js";
 
 import HttpError from "../middleware/HttpError.js";
-import { options } from "joi";
+
+import cloudinary from "../config/cloudinary.js";
 
 const add = async (req, res, next) => {
   try {
@@ -94,4 +95,83 @@ const GetAllRestaurant = async (req, res, next) => {
   }
 };
 
-export default { add, GetAllRestaurant };
+const deleteRestaurant = async (req, res, next) => {
+  try {
+    const targetedUser = req.params.id;
+
+    const Restaurant = await restaurantModel.findById(targetedUser);
+
+    if (!Restaurant) {
+      return next(new HttpError("Restaurant not found", 404));
+    }
+
+    if (Restaurant.Cloudinary_Id) {
+      await cloudinary.uploader.destroy(Restaurant.Cloudinary_Id);
+    }
+
+    await Restaurant.deleteOne();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Restaurant data delete successfully" });
+  } catch (error) {
+    next(new HttpError(error.message));
+  }
+};
+
+const updateRestaurant = async (req, res, next) => {
+  try {
+    const restaurant = await restaurantModel.findById(req.params.id);
+
+    if (!restaurant) {
+      return next(new HttpError("Restaurant not found", 404));
+    }
+
+    const updates = Object.keys(req.body);
+
+    const allowedFields = [
+      "restaurantname",
+      "descripition",
+      "address",
+      "State",
+      "city",
+      "phone",
+      "openingTime",
+      "ClosingTime",
+      "isOpen",
+    ];
+
+    const isValidUpdate = updates.every((field) =>
+      allowedFields.includes(field),
+    );
+
+    if (!isValidUpdate) {
+      return next(new HttpError("Only allowed fields can be updated", 400));
+    }
+
+    if (req.file) {
+      if (restaurant.Cloudinary_id) {
+        await cloudinary.uploader.destroy(restaurant.Cloudinary_id);
+      }
+
+      restaurant.restaurantImage = req.file.path;
+      restaurant.Cloudinary_id = req.file.filename;
+    }
+
+    updates.forEach((field) => {
+      restaurant[field] = req.body[field];
+    });
+
+    await restaurant.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Restaurant updated successfully",
+      restaurant,
+    });
+  } catch (error) {
+    next(new HttpError(error.message, 500));
+  }
+};
+
+export default { add, GetAllRestaurant, deleteRestaurant, updateRestaurant };

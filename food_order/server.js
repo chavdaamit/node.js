@@ -12,6 +12,8 @@ import adminRoutes from "./routes/adminRoutes.js";
 
 import restaurantRoutes from "./routes/restaurantRoutes.js";
 
+import providerRoutes from "./routes/ProviderRouter.js";
+
 import modelUser from "./model/UserModel.js";
 import restaurantModel from "./model/restaurant.js";
 
@@ -29,6 +31,10 @@ app.use("/user", router);
 app.use("/admin", adminRoutes);
 // restaurant Routes
 app.use("/restaurant", restaurantRoutes);
+
+// provider routes
+
+app.use("/provider", providerRoutes);
 
 // server check
 app.get("/", (req, res) => {
@@ -89,4 +95,3 @@ satrtServer();
 // }
 
 // checowner();
-
