@@ -27,17 +27,70 @@ const add = async (req, res, next) => {
 
 const GetAllUser = async (req, res, next) => {
   try {
-    const user = await modelUser.find({});
+    let {
+      page = 1,
+      limit = 10,
+      role,
+      search,
+      sort = "createdAt",
+      order = "desc",
+    } = req.query;
 
-    if (!user) {
-      return next(new HttpError("user data not found", 404));
+    page = Number(page);
+
+    limit = Number(limit);
+
+    const filter = {};
+
+    if (search) {
+      filter.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          Email: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
     }
 
+    if (role) {
+      filter.role = role;
+    }
+
+    const sortOption = {
+      [sort]: order === "asc" ? 1 : -1,
+    };
+
+    const totalUsers = await User.countDocuments(filter);
+
+    const users = await User.find(filter)
+      .sort(sortOption)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    if (users.length === 0) {
+      res.status(404).json({ success: false, message: "user not found" });
+    }
+
+    // const user = await modelUser.find({});
+
+    // if (!user) {
+    //   return next(new HttpError("user data not found", 404));
+    // }
     res.status(200).json({
       success: true,
       message: "All User Data Successfully",
-      total: user.length,
-      user,
+      total: totalUsers,
+      totalPage: Math.ceil(totalUsers / limit),
+      currentPage: page,
+      users,
     });
   } catch (error) {
     next(new HttpError(error.message, 500));

@@ -45,3 +45,4 @@ const allprovider = async (req, res, next) => {
 };
 
 export default { addProvider, allprovider };
+
