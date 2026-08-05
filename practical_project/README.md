@@ -6,6 +6,11 @@ This project provides user registration, login, JWT authentication, protected ro
 
 ---
 
+
+** project video **
+
+link : https://drive.google.com/file/d/1amvsQLyDfqq29ZY3GZAQhS8EUJZPWouJ/view?usp=drive_link
+
 **render link**
 
 link : https://practical-project-9yxb.onrender.com/user/AllUser
