@@ -20,6 +20,16 @@ app.use((req, res, next) => {
   return next(new HttpError("request rotes not found", 404));
 });
 
+app.use((error, req, res, next) => {
+  if (res.headersSent) {
+    return next(new error());
+  }
+
+  res
+    .status(error.statusCode || 500)
+    .json({ message: error.message || "internal server error" });
+});
+
 const port = 5000;
 
 async function startServer() {
