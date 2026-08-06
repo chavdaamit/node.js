@@ -67,9 +67,9 @@ const GetAllUser = async (req, res, next) => {
       [sort]: order === "asc" ? 1 : -1,
     };
 
-    const totalUsers = await User.countDocuments(filter);
+    const totalUsers = await modelUser.countDocuments(filter);
 
-    const users = await User.find(filter)
+    const users = await modelUser.find(filter)
       .sort(sortOption)
       .skip((page - 1) * limit)
       .limit(limit)

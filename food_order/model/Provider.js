@@ -16,7 +16,14 @@ const providerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    bankNambar: {
+    Cloudinary_Id: {
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    bankNumber: {
       type: String,
       required: true,
     },
