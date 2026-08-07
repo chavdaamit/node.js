@@ -8,7 +8,7 @@ import CheckRole from "../middleware/checkRole.js";
 
 import auth from "../middleware/auth.js";
 
-import uploads from "../middleware/uploads.js";
+import { profilepic } from "../middleware/uploads.js";
 
 import { updateUSerSchema } from "../validation/UserSchema.js";
 
@@ -26,7 +26,7 @@ router.patch(
   "/updateUser/:id",
   auth,
   CheckRole("admin"),
-  uploads.single("profile_pic"),
+  profilepic.single("profilepic"),
   validate(updateUSerSchema),
   UserController.updateUSer,
 );

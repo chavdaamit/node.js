@@ -2,7 +2,7 @@ import express from "express";
 
 import auth from "../middleware/auth.js";
 
-import uploads from "../middleware/uploads.js";
+import { document } from "../middleware/uploads.js";
 
 import validate from "../middleware/validate.js";
 
@@ -13,7 +13,7 @@ const router = express.Router();
 router.post(
   "/add",
   auth,
-  uploads.single("document"),
+  document.single("document", 3),
   providerController.addProvider,
 );
 

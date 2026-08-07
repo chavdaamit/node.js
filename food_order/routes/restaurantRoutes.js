@@ -5,7 +5,7 @@ import auth from "../middleware/auth.js";
 import CheckRole from "../middleware/checkRole.js";
 
 import restaurantController from "../controller/restaurantController.js";
-import uploads from "../middleware/uploads.js";
+import { restaurantImage } from "../middleware/uploads.js";
 import validate from "../middleware/validate.js";
 import restaurantSchema from "../validation/restaurant.js";
 
@@ -15,7 +15,7 @@ router.post(
   "/add",
   auth,
   CheckRole("admin", "provider"),
-  uploads.single("restaurantImage"),
+  restaurantImage.single("restaurantImage"),
   validate(restaurantSchema),
   restaurantController.add,
 );
