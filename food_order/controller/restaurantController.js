@@ -4,6 +4,10 @@ import HttpError from "../middleware/HttpError.js";
 
 import cloudinary from "../config/cloudinary.js";
 
+import sendEmail from "../utils/sendEmail.js";
+
+import { getWelcomeEmailTemplate } from "../template/emailTemplate.js";
+
 const add = async (req, res, next) => {
   try {
     const {
@@ -31,6 +35,12 @@ const add = async (req, res, next) => {
       restaurantImage: req.file?.path || null,
       Cloudinary_id: req.file?.filename || null,
       Owner: req.user._id,
+    });
+
+    await sendEmail({
+      to: req.user.Email,
+      subject: "Restaurant Added Successfully - Food_order🏨",
+      html: getWelcomeEmailTemplate(newRestaurant.restaurantname, "restaurant"),
     });
 
     res.status(201).json({

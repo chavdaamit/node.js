@@ -2,6 +2,12 @@ import modelUser from "../model/UserModel.js";
 import HttpError from "../middleware/HttpError.js";
 import cloudinary from "../config/cloudinary.js";
 
+import sendEmail from "../utils/sendEmail.js";
+import {
+  getWelcomeEmailTemplate,
+  getLoginSuccessEmailTemplate,
+} from "../template/emailTemplate.js";
+
 const add = async (req, res, next) => {
   try {
     const { name, Email, password, role, Address, phone } = req.body;
@@ -18,6 +24,12 @@ const add = async (req, res, next) => {
     });
 
     await newUser.save();
+
+    await sendEmail({
+      to: newUser.Email,
+      subject: "Welcome to Food_order",
+      html: getWelcomeEmailTemplate(newUser.name, "user"),
+    });
 
     res.status(201).json({ success: true, message: "new user added", newUser });
   } catch (error) {
@@ -69,7 +81,8 @@ const GetAllUser = async (req, res, next) => {
 
     const totalUsers = await modelUser.countDocuments(filter);
 
-    const users = await modelUser.find(filter)
+    const users = await modelUser
+      .find(filter)
       .sort(sortOption)
       .skip((page - 1) * limit)
       .limit(limit)

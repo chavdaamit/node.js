@@ -1,6 +1,9 @@
 import HttpError from "../middleware/HttpError.js";
 import providerModel from "../model/Provider.js";
 import modelUser from "../model/UserModel.js";
+import sendEmail from "../utils/sendEmail.js";
+
+import { getWelcomeEmailTemplate } from "../template/emailTemplate.js";
 
 const addProvider = async (req, res, next) => {
   try {
@@ -35,6 +38,12 @@ const addProvider = async (req, res, next) => {
     user.role = "provider";
 
     await user.save();
+
+    await sendEmail({
+      to: user.Email,
+      subject: "Welcome to Food_Order - provider Account 👨‍🍳",
+      html: getWelcomeEmailTemplate(user.name, "provider"),
+    });
 
     const provider = await providerModel
       .findById(newProvider._id)

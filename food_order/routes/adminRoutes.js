@@ -12,6 +12,8 @@ import { profilepic } from "../middleware/uploads.js";
 
 import { updateUSerSchema } from "../validation/UserSchema.js";
 
+import adminController from "../controller/adminController.js";
+
 const router = express.Router();
 
 router.delete(
@@ -30,5 +32,10 @@ router.patch(
   validate(updateUSerSchema),
   UserController.updateUSer,
 );
-
+router.get(
+  "/AllUsers",
+  auth,
+  CheckRole("admin"),
+  adminController.getAllUsers
+);
 export default router;
