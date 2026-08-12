@@ -19,4 +19,8 @@ router.post(
 
 router.get("/AllProvider", providerController.allprovider);
 
+router.delete("/DeleteProvider/:id", auth, providerController.deleteProvider);
+
+router.patch("/UpdateProvider/:id", auth, providerController.updateProvider);
+
 export default router;

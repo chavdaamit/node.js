@@ -14,6 +14,8 @@ import restaurantRoutes from "./routes/restaurantRoutes.js";
 
 import providerRoutes from "./routes/ProviderRouter.js";
 
+import FoodRoutes from "./routes/FoodRoutes.js";
+
 import modelUser from "./model/UserModel.js";
 import restaurantModel from "./model/restaurant.js";
 
@@ -35,6 +37,10 @@ app.use("/restaurant", restaurantRoutes);
 // provider routes
 
 app.use("/provider", providerRoutes);
+
+// Food routes
+
+app.use("/Food", FoodRoutes);
 
 // server check
 app.get("/", (req, res) => {

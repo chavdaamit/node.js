@@ -98,4 +98,26 @@ export const document = createUploads({
   mimeType: ["application/pdf"],
 });
 
+export const categoryImage = createUploads({
+  folder: "food_order/categoryImage",
+  transformation: [
+    { height: "800", width: "800", crop: "limit" },
+    { fetch_format: "webp" },
+    { quality: "auto" },
+  ],
 
+  allowed_formats: ["jpeg", "jpg", "png", "webp"],
+  mimeType: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+});
+
+export const foodImage = createUploads({
+  folder: "food_order/food_pic",
+  transformation: [
+    { height: "800", width: "800", crop: "limit" },
+    { fetch_format: "webp" },
+    { quality: "auto" },
+  ],
+
+  allowed_formats: ["jpeg", "png", "jpg", "webp"],
+  mimeType: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+});
