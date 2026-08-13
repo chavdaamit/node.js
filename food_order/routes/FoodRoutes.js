@@ -8,6 +8,10 @@ import auth from "../middleware/auth.js";
 
 import CheckRole from "../middleware/checkRole.js";
 
+import validate from "../middleware/validate.js";
+
+import { addFoodSchema, updateFoodSchema } from "../validation/foodSchema.js";
+
 const router = express.Router();
 
 router.post(
@@ -15,6 +19,7 @@ router.post(
   auth,
   CheckRole("admin", "provider"),
   foodImage.array("food_pic", 5),
+  validate(addFoodSchema),
   FoodController.addFood,
 );
 
@@ -25,6 +30,15 @@ router.delete(
   auth,
   CheckRole("admin", "provider"),
   FoodController.deleteFood,
+);
+
+router.patch(
+  "/UpdateFood/:id",
+  auth,
+  CheckRole("admin", "provider"),
+  foodImage.array("food_pic", 5),
+  validate(updateFoodSchema),
+  FoodController.updateFood,
 );
 
 export default router;

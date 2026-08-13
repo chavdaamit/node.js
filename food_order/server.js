@@ -16,14 +16,19 @@ import providerRoutes from "./routes/ProviderRouter.js";
 
 import FoodRoutes from "./routes/FoodRoutes.js";
 
+import categoryRoutes from "./routes/categoryRouter.js";
+
 import modelUser from "./model/UserModel.js";
 import restaurantModel from "./model/restaurant.js";
 
 import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
 // dotenv config
 dotenv.config({ path: "./.env" });
 
 const app = express();
+
+app.use(rateLimit());
 
 app.use(express.json());
 
@@ -41,6 +46,10 @@ app.use("/provider", providerRoutes);
 // Food routes
 
 app.use("/Food", FoodRoutes);
+
+//  category routes
+
+app.use("/category", categoryRoutes);
 
 // server check
 app.get("/", (req, res) => {

@@ -4,6 +4,7 @@ import HttpError from "../middleware/HttpError.js";
 
 import cloudinary from "../config/cloudinary.js";
 
+
 const addFood = async (req, res, next) => {
   try {
     const {
@@ -131,4 +132,64 @@ const deleteFood = async (req, res, next) => {
   }
 };
 
-export default { addFood, GetAllFood, deleteFood };
+const updateFood = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const foodUpdate = await foodmodel.findById(id);
+
+    if (!foodUpdate) {
+      return next(new HttpError("Food data not found with this id", 404));
+    }
+
+    const updates = Object.keys(req.body);
+
+    const allowedUpdates = [
+      "name",
+      "price",
+      "Owner",
+      "restaurantname",
+      "description",
+      "preparingTime",
+      "category",
+      "isAvailable",
+      "isVerified",
+    ];
+
+    const isValidUpdates = updates.every((field) =>
+      allowedUpdates.includes(field),
+    );
+
+    if (!isValidUpdates) {
+      return next(new HttpError("only allowed fields can be updated", 400));
+    }
+
+    updates.forEach((update) => {
+      foodUpdate[update] = req.body[update];
+    });
+
+    if (req.file) {
+      if (foodUpdate.Cloudinary_id) {
+        for (const imageId of foodUpdate.Cloudinary_id) {
+          await cloudinary.uploader.destroy(imageId);
+        }
+      }
+
+      foodUpdate.food_pic = req.files.map((file) => file.path);
+
+      foodUpdate.Cloudinary_id = req.files.map((file) => file.filename);
+    }
+
+    await foodUpdate.save();
+
+    res.status(201).json({
+      success: true,
+      message: "food update successfully",
+      data: foodUpdate,
+    });
+  } catch (error) {
+    next(new HttpError(error.message));
+  }
+};
+
+export default { addFood, GetAllFood, deleteFood, updateFood };
