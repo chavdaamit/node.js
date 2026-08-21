@@ -18,6 +18,8 @@ import FoodRoutes from "./routes/FoodRoutes.js";
 
 import categoryRoutes from "./routes/categoryRouter.js";
 
+import orderRoutes from "./routes/orderRouter.js";
+
 import modelUser from "./model/UserModel.js";
 import restaurantModel from "./model/restaurant.js";
 
@@ -50,6 +52,10 @@ app.use("/Food", FoodRoutes);
 //  category routes
 
 app.use("/category", categoryRoutes);
+
+// order Routes
+
+app.use("/Order", orderRoutes);
 
 // server check
 app.get("/", (req, res) => {

@@ -32,10 +32,13 @@ router.patch(
   validate(updateUSerSchema),
   UserController.updateUSer,
 );
+router.get("/AllUsers", auth, CheckRole("admin"), adminController.getAllUsers);
+
 router.get(
-  "/AllUsers",
+  "/dashboardsStatics",
   auth,
   CheckRole("admin"),
-  adminController.getAllUsers
+  adminController.dashBoardStatics,
 );
+
 export default router;
