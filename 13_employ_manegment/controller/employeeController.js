@@ -15,9 +15,7 @@ const add = async (req, res, next) => {
       mobile,
     } = req.body;
 
-    // const newEmployee = await new Employee.create({
-
-    // })
+    
 
     const newEmployee = await new Employee({
       name,
