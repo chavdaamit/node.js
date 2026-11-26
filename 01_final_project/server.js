@@ -4,12 +4,15 @@ import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 import router from "./router/UserRouter.js";
 import BlogRouter from "./router/BlogRouter.js";
+import cors from "cors";
 
 import adminRouter from "./router/adminRouter.js";
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
