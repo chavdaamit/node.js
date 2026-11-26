@@ -10,7 +10,7 @@ import checkRole from "../middleware/checkRole.js";
 
 import validate from "../middleware/validate.js";
 
-import { addBlogSchema, updateBlogSchema } from "../validation/BlogSchema.js";
+import { addBlogSchema, updateBlogSchema } from "../validation/blogSchema.js";
 
 const router = express.Router();
 
